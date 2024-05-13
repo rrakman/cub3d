@@ -24,19 +24,17 @@ void	ft_hook(void *game)
 
 	mlx = (t_game *)game;
 
-	// mlx->player->instances[0].x = mlx->player_x * CUBE_SIZE;
-	// mlx->player->instances[0].y = mlx->player_y * CUBE_SIZE;
-	mlx->player->enabled = true;
 	if (mlx_is_key_down(mlx->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(mlx->mlx);
-	if (mlx_is_key_down(mlx->mlx, MLX_KEY_UP))
-		mlx->player_yp -= 5;
-	if (mlx_is_key_down(mlx->mlx, MLX_KEY_DOWN))
+	if (mlx_is_key_down(mlx->mlx,MLX_KEY_DOWN))
 		mlx->player_yp += 5;
-	if (mlx_is_key_down(mlx->mlx, MLX_KEY_LEFT))
-			mlx->player_xp -= 5;
-	if (mlx_is_key_down(mlx->mlx, MLX_KEY_RIGHT))
-			mlx->player_xp += 5;
+	if (mlx_is_key_down(mlx->mlx,MLX_KEY_UP))
+		mlx->player_yp -= 5;
+	if (mlx_is_key_down(mlx->mlx,MLX_KEY_LEFT))
+		mlx->player_xp -= 5;
+	if (mlx_is_key_down(mlx->mlx,MLX_KEY_RIGHT))
+		mlx->player_xp += 5;
+	
 }
 
 int32_t ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a)
@@ -84,19 +82,6 @@ void draw_circle(mlx_image_t* image, int x0, int y0, int radius, int color)
     }
 }
 
-void ft_player(void* param)
-{
-	t_game	*game;
-	int		color;
-	color = ft_pixel(0xAF, 0xFF,0x00, 0xFF);
-	game = (t_game *) param;
-	// if(game->player->instances[0].x < 0 || game->player->instances[0].x > 24*CUBE_SIZE || game->player->instances[0].y < 0 || game->player->instances[0].y > 9 * CUBE_SIZE)
-	// {
-	// 	printf("You are at x: %d y: %d\n", game->player->instances[0].x, game->player->instances[0].y);
-	// }
-	
-	draw_circle(game->player, game->player_xp + 24, game->player_yp + 24, 10, color);
-}
 
 void draw_square(t_game *game, int x, int y, int color)
 {
@@ -121,8 +106,12 @@ void draw_square(t_game *game, int x, int y, int color)
 	}
 }
 
-void	draw_minimap(t_game *game)
+void	draw_minimap(void *param)
 {
+	t_game *game;
+
+	game = (t_game *)param;
+
 	int	color_wall;
 	int	x;
 	int	y;
@@ -147,6 +136,9 @@ void	draw_minimap(t_game *game)
 		}
 		y++;
 	}
+	int color = ft_pixel(0xAF, 0xFF,0x00, 0xFF);
+	
+	draw_circle(game->minimap, game->player_xp + 25, game->player_yp + 25, 10, color);
 	mlx_image_to_window(game->mlx, game->minimap, 0, 0);
 }
 
@@ -178,13 +170,8 @@ int	main(void)
 	fill_map(game);
 	if (!game->mlx)
 		ft_error();
-	draw_minimap(game);
-	game->player = mlx_new_image(game->mlx, 25*50, 10*50);
-	if (!game->player)
-		ft_error();
-	mlx_image_to_window(game->mlx, game->player, 0, 0);
 	mlx_loop_hook(game->mlx, ft_hook, game);
-	mlx_loop_hook(game->mlx, ft_player, game);
+	mlx_loop_hook(game->mlx, draw_minimap,game);
 	mlx_loop(game->mlx);
 	mlx_terminate(game->mlx);
 	return (EXIT_SUCCESS);

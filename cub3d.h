@@ -6,7 +6,7 @@
 /*   By: rrakman <rrakman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 22:05:18 by rrakman           #+#    #+#             */
-/*   Updated: 2024/05/13 18:44:11 by rrakman          ###   ########.fr       */
+/*   Updated: 2024/05/14 00:29:57 by rrakman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,12 @@
 typedef struct s_game
 {
     mlx_t* mlx;
-	mlx_image_t* player;
 	mlx_image_t* minimap;
 	char **map;
 	int player_x;
 	int player_y;
-	int player_xp;
-	int player_yp;
+	int player_xp; // player pos x in px
+	int player_yp; // player pos Y in px
 }   t_game;
 
 
