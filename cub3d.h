@@ -6,7 +6,7 @@
 /*   By: rrakman <rrakman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 22:05:18 by rrakman           #+#    #+#             */
-/*   Updated: 2024/05/16 20:11:44 by rrakman          ###   ########.fr       */
+/*   Updated: 2024/05/16 21:11:22 by rrakman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 
 typedef struct s_game
 {
-    mlx_t* mlx;
+	mlx_t* mlx;
 	mlx_image_t* minimap;
 	char **map;
 	int player_x;
@@ -40,13 +40,13 @@ typedef struct s_game
 }   t_game;
 
 void	draw_minimap(void *param);
-void draw_player(t_game *game);
+void	draw_player(t_game *game);
 
 void	ft_hook(void *game);
-void go_right(t_game *mlx, int player_square_size);
-void go_left(t_game *mlx, int player_square_size);
-void go_up(t_game *mlx, int player_square_size);
-void go_down(t_game *mlx, int player_square_size);
+void	go_right(t_game *mlx, int player_square_size);
+void	go_left(t_game *mlx, int player_square_size);
+void	go_up(t_game *mlx, int player_square_size);
+void	go_down(t_game *mlx, int player_square_size);
 
 
 #endif
