@@ -6,7 +6,7 @@
 /*   By: rrakman <rrakman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 22:05:18 by rrakman           #+#    #+#             */
-/*   Updated: 2024/05/14 00:29:57 by rrakman          ###   ########.fr       */
+/*   Updated: 2024/05/16 20:11:44 by rrakman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@
 #include <string.h>
 #include "../MLX42/include/MLX42/MLX42.h"
 #include "math.h"
-#define WIDTH 1000
-#define HEIGHT 1000
 
-#define MAP_LENGTH 25
+
+#define MAP_LENGTH 16
 #define MAP_WIDTH 10
-#define CUBE_SIZE 50
+#define CUBE_SIZE 20
+#define PLAYER_SIZE 10
 
 typedef struct s_game
 {
@@ -35,9 +35,18 @@ typedef struct s_game
 	char **map;
 	int player_x;
 	int player_y;
-	int player_xp; // player pos x in px
-	int player_yp; // player pos Y in px
+	float player_xp; // player pos x in px
+	float player_yp; // player pos Y in px
 }   t_game;
+
+void	draw_minimap(void *param);
+void draw_player(t_game *game);
+
+void	ft_hook(void *game);
+void go_right(t_game *mlx, int player_square_size);
+void go_left(t_game *mlx, int player_square_size);
+void go_up(t_game *mlx, int player_square_size);
+void go_down(t_game *mlx, int player_square_size);
 
 
 #endif
