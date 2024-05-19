@@ -6,7 +6,7 @@
 /*   By: rrakman <rrakman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 22:05:18 by rrakman           #+#    #+#             */
-/*   Updated: 2024/05/16 21:11:22 by rrakman          ###   ########.fr       */
+/*   Updated: 2024/05/19 14:27:07 by rrakman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@
 
 #define MAP_LENGTH 16
 #define MAP_WIDTH 10
-#define CUBE_SIZE 20
-#define PLAYER_SIZE 10
+#define CUBE_SIZE 32
+#define PLAYER_SIZE 2
 
 typedef struct s_game
 {
@@ -37,6 +37,7 @@ typedef struct s_game
 	int player_y;
 	float player_xp; // player pos x in px
 	float player_yp; // player pos Y in px
+	float angle;
 }   t_game;
 
 void	draw_minimap(void *param);
@@ -48,5 +49,8 @@ void	go_left(t_game *mlx, int player_square_size);
 void	go_up(t_game *mlx, int player_square_size);
 void	go_down(t_game *mlx, int player_square_size);
 
+
+// maths
+float degree_to_radian(float degree);
 
 #endif

@@ -78,6 +78,44 @@ void	draw_minimap(void *param)
 	}
 }
 
+void	draw_line(mlx_image_t *img, int x1, int y1, int x2, int y2)
+{
+	int dx = abs(x2 - x1);
+	int sx = x1 < x2 ? 1 : -1;
+	int dy = -abs(y2 - y1);
+	int sy = y1 < y2 ? 1 : -1;
+	int err = dx + dy;
+	int e2;
+	while (1)
+	{
+ 		mlx_put_pixel(img, x1, y1, ft_pixel(0x00, 0x00, 0xFF, 0xFF));
+		if (x1 == x2 && y1 == y2)
+			break;
+		e2 = 2 * err;
+		if (e2 >= dy)
+		{
+			err += dy;
+			x1 += sx;
+		}
+		if (e2 <= dx)
+		{
+			err += dx;
+			y1 += sy;
+		}
+	}
+}
+
+void draw_angle(t_game *game)
+{
+	float x2;
+	float y2;
+
+	x2 = game->player_xp + 20 * cos(game->angle);
+	y2 = game->player_yp + 20 * sin(game->angle);
+
+	draw_line(game->minimap, game->player_xp, game->player_yp, x2, y2);
+}
+
 void draw_player(t_game *game)
 {
     int	i_start;
@@ -88,7 +126,7 @@ void draw_player(t_game *game)
 	int i;
 
     player_color = ft_pixel(0xAA,0x00,0xFA,0xFF);
-	int player_square_size = CUBE_SIZE / 2;
+	int player_square_size = CUBE_SIZE / 4;
     i_start = game->player_xp - player_square_size / 2;
     j_start = game->player_yp - player_square_size / 2;
     i_end = game->player_xp + player_square_size / 2;
@@ -105,8 +143,8 @@ void draw_player(t_game *game)
 		}
 		i++;
     }
+	draw_angle(game);
 }
-
 
 
 void fill_map(t_game *game)
@@ -126,6 +164,7 @@ void fill_map(t_game *game)
 	game->player_y = 2;
 	game->player_xp = (game->player_x * CUBE_SIZE) + (CUBE_SIZE / 2); // set player pos x in px setting him in the middle of the cube
 	game->player_yp = (game->player_y * CUBE_SIZE) + (CUBE_SIZE / 2);
+	game->angle = M_PI;
 }
 
 int	main(void)

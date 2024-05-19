@@ -6,7 +6,7 @@
 /*   By: rrakman <rrakman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 18:27:49 by rrakman           #+#    #+#             */
-/*   Updated: 2024/05/16 20:09:29 by rrakman          ###   ########.fr       */
+/*   Updated: 2024/05/19 14:40:39 by rrakman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	ft_hook(void *game)
 
     draw_minimap(game);
     draw_player(game);
-    int player_square_size = CUBE_SIZE / 2;
+    int player_square_size = CUBE_SIZE / 4;
     if (mlx_is_key_down(mlx->mlx, MLX_KEY_ESCAPE))
         mlx_close_window(mlx->mlx);
     if (mlx_is_key_down(mlx->mlx,MLX_KEY_DOWN))
@@ -82,4 +82,8 @@ void	ft_hook(void *game)
         go_left(mlx, player_square_size);
     if (mlx_is_key_down(mlx->mlx,MLX_KEY_RIGHT))
         go_right(mlx, player_square_size);
+	if(mlx_is_key_down(mlx->mlx, MLX_KEY_A))
+		mlx->angle -= degree_to_radian(1);
+	if(mlx_is_key_down(mlx->mlx, MLX_KEY_D))
+		mlx->angle += degree_to_radian(1);
 }

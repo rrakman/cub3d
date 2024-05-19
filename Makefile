@@ -4,7 +4,7 @@ CFLAGS	:= -Wextra -Wall -Werror -g -fsanitize=address
 LIBMLX	:= ../MLX42/build/libmlx42.a
 LIBFLAGS := -framework Cocoa -framework OpenGL -framework IOKit
 GLFWPATH := /Users/rrakman//MLX42/build/_deps/glfw-build/src/libglfw3.a
-SRC = main.c player_moves.c
+SRC = main.c player_moves.c math.c
 OBJ = ${SRC:%.c=%.o}
 
 $(NAME): $(OBJ)
