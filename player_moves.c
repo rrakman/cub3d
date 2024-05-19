@@ -6,7 +6,7 @@
 /*   By: rrakman <rrakman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 18:27:49 by rrakman           #+#    #+#             */
-/*   Updated: 2024/05/19 14:40:39 by rrakman          ###   ########.fr       */
+/*   Updated: 2024/05/19 16:25:05 by rrakman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,17 +31,42 @@ void go_down(t_game *mlx, int player_square_size)
 void go_up(t_game *mlx, int player_square_size)
 {
     int player_square_size_half = player_square_size / 2;
-    int top_left_x = (mlx->player_xp - player_square_size_half) / CUBE_SIZE;
-    int top_right_x = (mlx->player_xp + player_square_size_half) / CUBE_SIZE;
-    int top_left_y = (mlx->player_yp - player_square_size_half - 1) / CUBE_SIZE;
+    double new_xp = mlx->player_xp + 1 * cos(mlx->angle);
+    double new_yp = mlx->player_yp + 1 * sin(mlx->angle);
+    int top_left_x = (int)(new_xp - player_square_size_half) / CUBE_SIZE;
+    int top_right_x = (int)(new_xp + player_square_size_half) / CUBE_SIZE;
+    int top_left_y = (int)(new_yp - player_square_size_half - 1) / CUBE_SIZE;
     int top_right_y = top_left_y;
-
+	
+	int bottom_left_x = (int)(new_xp - player_square_size_half) / CUBE_SIZE;
+	int bottom_right_x = (int)(new_xp + player_square_size_half) / CUBE_SIZE;
+	int bottom_left_y = (int)(new_yp + player_square_size_half) / CUBE_SIZE;
+	int bottom_right_y = bottom_left_y;
+	
     if (mlx->map[top_left_y][top_left_x] != '1' &&
-        mlx->map[top_right_y][top_right_x] != '1')
+        mlx->map[top_right_y][top_right_x] != '1' &&
+		mlx->map[bottom_left_y][bottom_left_x] != '1' &&
+		mlx->map[bottom_right_y][bottom_right_x] != '1')
     {
-        mlx->player_yp -= 1;
+        mlx->player_xp = new_xp;
+        mlx->player_yp = new_yp;
     }
 }
+
+// void go_up(t_game *mlx, int player_square_size)
+// {
+//     int player_square_size_half = player_square_size / 2;
+//     int top_left_x = (mlx->player_xp - player_square_size_half) / CUBE_SIZE;
+//     int top_right_x = (mlx->player_xp + player_square_size_half) / CUBE_SIZE;
+//     int top_left_y = (mlx->player_yp - player_square_size_half - 1) / CUBE_SIZE;
+//     int top_right_y = top_left_y;
+
+//     if (mlx->map[top_left_y][top_left_x] != '1' &&
+//         mlx->map[top_right_y][top_right_x] != '1')
+//     {
+//         mlx->player_yp -= 1;
+//     }
+// }
 
 void go_left(t_game *mlx, int player_square_size)
 {

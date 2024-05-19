@@ -109,10 +109,9 @@ void draw_angle(t_game *game)
 {
 	float x2;
 	float y2;
-
 	x2 = game->player_xp + 20 * cos(game->angle);
 	y2 = game->player_yp + 20 * sin(game->angle);
-
+	// printf("x2 = %f, y2 = %f\n", x2, y2);
 	draw_line(game->minimap, game->player_xp, game->player_yp, x2, y2);
 }
 

@@ -6,7 +6,7 @@
 /*   By: rrakman <rrakman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 22:05:18 by rrakman           #+#    #+#             */
-/*   Updated: 2024/05/19 14:27:07 by rrakman          ###   ########.fr       */
+/*   Updated: 2024/05/19 16:26:42 by rrakman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@
 #define MAP_LENGTH 16
 #define MAP_WIDTH 10
 #define CUBE_SIZE 32
-#define PLAYER_SIZE 2
+// #define PLAYER_SIZE 2
+#define FOV 60
 
 typedef struct s_game
 {
