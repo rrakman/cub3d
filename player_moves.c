@@ -6,7 +6,7 @@
 /*   By: rrakman <rrakman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 18:27:49 by rrakman           #+#    #+#             */
-/*   Updated: 2024/05/19 16:25:05 by rrakman          ###   ########.fr       */
+/*   Updated: 2024/05/19 17:25:35 by rrakman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,26 +28,37 @@ void go_down(t_game *mlx, int player_square_size)
     }
 }
 
-void go_up(t_game *mlx, int player_square_size)
+bool mapcheck(t_game *mlx, float x, float y, int player_square_size, float angle)
 {
-    int player_square_size_half = player_square_size / 2;
-    double new_xp = mlx->player_xp + 1 * cos(mlx->angle);
-    double new_yp = mlx->player_yp + 1 * sin(mlx->angle);
-    int top_left_x = (int)(new_xp - player_square_size_half) / CUBE_SIZE;
-    int top_right_x = (int)(new_xp + player_square_size_half) / CUBE_SIZE;
-    int top_left_y = (int)(new_yp - player_square_size_half - 1) / CUBE_SIZE;
-    int top_right_y = top_left_y;
+	int player_square_size_half = player_square_size / 2;
+	float new_xp = x + 1 * cos(angle);
+	float new_yp = y + 1 * sin(angle);
 	
+	int top_left_x = (int)(new_xp - player_square_size_half) / CUBE_SIZE;
+	int top_right_x = (int)(new_xp + player_square_size_half) / CUBE_SIZE;
+	int top_left_y = (int)(new_yp - player_square_size_half - 1) / CUBE_SIZE;
+	int top_right_y = top_left_y;
+
 	int bottom_left_x = (int)(new_xp - player_square_size_half) / CUBE_SIZE;
 	int bottom_right_x = (int)(new_xp + player_square_size_half) / CUBE_SIZE;
 	int bottom_left_y = (int)(new_yp + player_square_size_half) / CUBE_SIZE;
 	int bottom_right_y = bottom_left_y;
-	
-    if (mlx->map[top_left_y][top_left_x] != '1' &&
-        mlx->map[top_right_y][top_right_x] != '1' &&
-		mlx->map[bottom_left_y][bottom_left_x] != '1' &&
-		mlx->map[bottom_right_y][bottom_right_x] != '1')
-    {
+
+	if (mlx->map[top_left_y][top_left_x] == '1' ||
+		mlx->map[top_right_y][top_right_x] == '1' ||
+		mlx->map[bottom_left_y][bottom_left_x] == '1' ||
+		mlx->map[bottom_right_y][bottom_right_x] == '1')
+		return true;
+	return false;
+}
+
+void go_up(t_game *mlx, int player_square_size)
+{
+	bool map_coalision = mapcheck(mlx, mlx->player_xp, mlx->player_yp, player_square_size, mlx->angle);
+    float new_xp = mlx->player_xp + 1 * cos(mlx->angle);
+    float new_yp = mlx->player_yp + 1 * sin(mlx->angle);
+    
+    if (!map_coalision){
         mlx->player_xp = new_xp;
         mlx->player_yp = new_yp;
     }
