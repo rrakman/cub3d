@@ -6,7 +6,7 @@
 /*   By: rrakman <rrakman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 22:05:18 by rrakman           #+#    #+#             */
-/*   Updated: 2024/05/20 20:15:29 by rrakman          ###   ########.fr       */
+/*   Updated: 2024/05/20 22:20:23 by rrakman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ typedef struct s_game
 	float angle;
 	int map_height;
 	int map_width;
-	int player_size;
+	float player_size;
 }   t_game;
 
 void	draw_minimap(void *param);

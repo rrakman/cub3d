@@ -116,7 +116,7 @@ void draw_angle(t_game *game)
 	float y2;
 	x2 = game->player_xp + 20 * cos(game->angle);
 	y2 = game->player_yp + 20 * sin(game->angle);
-	draw_line(game->minimap, game->player_xp, game->player_yp, x2, y2);
+	// draw_line(game->minimap, game->player_xp, game->player_yp, x2, y2);
 }
 
 void draw_player(t_game *game)
@@ -176,6 +176,18 @@ int biggestline(char **arr)
 	return (biggest);
 }
 
+void define_angle(t_game *game, char dir)
+{
+	if (dir == 'N')
+		game->angle = 3 * M_PI_2;
+	else if (dir == 'E')
+		game->angle = M_PI_2;
+	else if (dir == 'S')
+		game->angle = M_PI;
+	else if (dir == 'W')
+		game->angle = 3 * M_PI_2;
+}
+
 void fill_map(t_game *game, t_map *data)
 {
 	game->map = data->map;
@@ -185,15 +197,14 @@ void fill_map(t_game *game, t_map *data)
 	printf("player y = %d\n", game->player_y);
 	game->map_height = len2d(game->map);
 	game->map_width = biggestline(game->map);
-	int test = 500 / game->map_width;
-	int test2 = 200 / game->map_height;
+	int test = 600 / game->map_width;
+	int test2 = 400 / game->map_height;
 	game->player_size = test < test2 ? test : test2;
-	game->player_xp = (game->player_x * game->player_size) + (game->player_size / 2); // set player pos x in px setting him in the middle of the cube
+	if(game->player_size < 1)
+		game->player_size = 1;
+	game->player_xp = (game->player_x * game->player_size) + (game->player_size / 2);
 	game->player_yp = (game->player_y * game->player_size) + (game->player_size / 2);
-	game->angle = M_PI / 2;
-	
-	
-	
+	define_angle(game, data->player_dir);	
 }
 
 int	main(int ac, char **av)
@@ -219,7 +230,6 @@ int	main(int ac, char **av)
 		mlx_loop_hook(game->mlx, ft_hook, game);
 		mlx_loop(game->mlx);
 		mlx_terminate(game->mlx);
-		
 		free_all(&data);
 	}
 	else
