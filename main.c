@@ -5,61 +5,20 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: rrakman <rrakman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/11 21:15:26 by rrakman           #+#    #+#             */
-/*   Updated: 2024/05/12 18:38:06rrakman          ###   ########.fr       */
+/*   Created: 2024/05/11 22:05:18 by rrakman           #+#    #+#             */
+/*   Updated: 2024/05/27 16:33:51 by rrakman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	ft_error()
-{
-	printf("%s\n", mlx_strerror(mlx_errno));
-	exit(EXIT_FAILURE);
-}
-
-int32_t ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a)
-{
-	return (r << 24 | g << 16 | b << 8 | a);
-}
-
-void draw_square(t_game *game, int x, int y, int color)
-{
-	int	i;
-	int	j;
-	int border_color;
-
-	i = 0;
-	border_color = ft_pixel(0x0A,0x4A,0xFA,0xFF);
-	while (i < game->player_size)
-	{
-		j = 0;
-		while (j < game->player_size)
-		{
-			if (i == 0 || j == 0 || i == game->player_size - 1 || j == game->player_size - 1)
-				mlx_put_pixel(game->minimap, x + i, y + j, border_color);
-			else
-				mlx_put_pixel(game->minimap, x + i, y + j, color);
-			
-			j++;
-		}
-		i++;
-	}
-}
-
 void	draw_minimap(void *param)
 {
     t_game *game;
-
-    game = (t_game *)param;
-
-    int	color_wall;
-    int color_floor;
     int	x;
     int	y;
 
-    color_wall = ft_pixel(0x00, 0x00, 0x00, 0xFF);
-    color_floor = ft_pixel(0xFF, 0xFF, 0xFF, 0xFF);
+    game = (t_game *)param;
     y = 0;
     if (!game->minimap)
         ft_error();
@@ -69,67 +28,182 @@ void	draw_minimap(void *param)
         if (game->map[y] == NULL) {
             break;
         }
-        int row_length = ft_strlen(game->map[y]);  // Calculate the length of the current row
-        while (x < row_length)
+        while (x < ft_strlen(game->map[y]))
         {
             if (game->map[y][x] == '1')
-                draw_square(game, x * game->player_size, y * game->player_size, color_wall);
+                draw_square(game, x * game->tale_size, y * game->tale_size, BLACK);
 			else if(game->map[y][x] == '0' || game->map[y][x] == 'W' || \
 				game->map[y][x] == 'E' || game->map[y][x] == 'N' || game->map[y][x] == 'S')
-                draw_square(game, x * game->player_size, y * game->player_size, color_floor);
+                draw_square(game, x * game->tale_size, y * game->tale_size, WHITE);
             x++;
         }
         y++;
     }
 }
 
-void	draw_line(mlx_image_t *img, int x1, int y1, int x2, int y2)
-{
-	int dx = abs(x2 - x1);
-	int sx = x1 < x2 ? 1 : -1;
-	int dy = -abs(y2 - y1);
-	int sy = y1 < y2 ? 1 : -1;
-	int err = dx + dy;
-	int e2;
-	while (1)
+
+void	draw_line(mlx_image_t *img,int x0, int y0, int x1, int y1) 
+{ 
+    int dx = x1 - x0;
+    int dy = y1 - y0;
+    int steps = abs(dx) > abs(dy) ? abs(dx) : abs(dy); 
+  
+    float Xinc = dx / (float)steps; 
+    float Yinc = dy / (float)steps; 
+
+    float X = x0; 
+    float Y = y0; 
+    for (int i = 0; i <= steps; i++)
 	{
- 		mlx_put_pixel(img, x1, y1, ft_pixel(0x00, 0x00, 0xFF, 0xFF));
-		if (x1 == x2 && y1 == y2)
-			break;
-		e2 = 2 * err;
-		if (e2 >= dy)
+		mlx_put_pixel(img,round(X), round(Y), GRAY);
+        X += Xinc;
+        Y += Yinc;
+    }
+}
+
+int	wall_hit(t_game *game,float x, float y)
+{
+	int		x_m;
+	int		y_m;
+
+	if (x < 0 || y < 0)
+		return (0);
+	x_m = (int)(x / game->tale_size);
+	y_m = (int)(y / game->tale_size);
+	if ((y_m >= game->map_height || x_m >= game->map_width))
+		return (0);
+	if (game->map[y_m] && x_m <= (int)strlen(game->map[y_m]))
+		if (game->map[y_m][x_m] == '1')
+			return (0);
+	return (1);
+}
+
+int	inter_check(float tale_size, float angle, float *inter, float *step, int is_horizon)
+{
+	if (is_horizon)
+	{
+		if (angle > 0 && angle < M_PI)
 		{
-			err += dy;
-			x1 += sx;
+			*inter += tale_size;
+			return (-1);
 		}
-		if (e2 <= dx)
+		*step *= -1;
+	}
+	else
+	{
+		if (!(angle > M_PI / 2 && angle < 3 * M_PI / 2)) 
 		{
-			err += dx;
-			y1 += sy;
+			*inter += tale_size;
+			return (-1);
 		}
+		*step *= -1;
+	}
+	return (1);
+}
+
+int	check_angle(float angle, char c)
+{
+	if (c == 'x')
+	{
+		if (angle > 0 && angle < M_PI)
+			return (1);
+	}
+	else if (c == 'y')
+	{
+		if (angle > (M_PI / 2) && angle < (3 * M_PI) / 2)
+			return (1);
+	}
+	return (0);
+}
+
+float horizontal_intersection(t_game *game)
+{
+	float	x_step;
+	float	y_step;
+	int		pixel;
+
+	y_step = game->tale_size;
+	x_step = game->tale_size / tan(game->ray->angle);
+	game->ray->y = floor(game->player_yp / game->tale_size) * game->tale_size;
+	pixel = inter_check(game->tale_size, game->ray->angle, &game->ray->y, &y_step, 1);
+	game->ray->x = game->player_xp + (game->ray->y - game->player_yp) / tan(game->ray->angle);
+	if ((check_angle(game->ray->angle, 'y') && x_step > 0) || (!check_angle(game->ray->angle, 'y') && x_step < 0))
+		x_step *= -1;
+	while (wall_hit(game,game->ray->x, game->ray->y - pixel))
+	{
+		game->ray->x += x_step;
+		game->ray->y += y_step;
+	}
+	return (sqrt(pow(game->ray->x - game->player_xp, 2) + pow(game->ray->y - game->player_yp, 2)));
+}
+
+float	vertical_intersection(t_game *game)
+{
+	float	v_x;
+	float	v_y;
+	float	x_step;
+	float	y_step;
+	int		pixel;
+
+	x_step = game->tale_size; 
+	y_step = game->tale_size * tan(game->ray->angle);
+	v_x = floor(game->player_xp / game->tale_size) * game->tale_size;
+	pixel = inter_check(game->tale_size, game->ray->angle, &v_x, &x_step, 0);
+	v_y = game->player_yp + (v_x - game->player_xp) * tan(game->ray->angle);
+	if ((check_angle(game->ray->angle, 'x') && y_step < 0) || (!check_angle(game->ray->angle, 'x') && y_step > 0))
+		y_step *= -1;
+	while (wall_hit(game,v_x - pixel, v_y))
+	{
+		v_x += x_step;
+		v_y += y_step;
+	}
+	return (sqrt(pow(v_x - game->player_xp, 2) + pow(v_y - game->player_yp, 2)));
+}
+
+void draw_fov(t_game *game, float chose)
+{
+	float x = game->player_xp + chose * cos(game->ray->angle);
+	float y = game->player_yp + chose * sin(game->ray->angle);
+	draw_line(game->minimap, game->player_xp, game->player_yp, x, y);
+}
+
+void	cast_rays(t_game * game)
+{
+	int ray;
+	float horiz_i;
+	float vert_i;
+	float chose;
+	normalize_angle(&game->angle);
+	game->ray->angle = game->angle - game->fov_rd / 2;
+	ray = 0;
+	while(ray < 800)
+	{
+		normalize_angle(&game->ray->angle);
+		game->ray->flag = 0;
+		horiz_i = horizontal_intersection(game);
+		vert_i = vertical_intersection(game);
+		if (vert_i <= horiz_i)
+			chose = vert_i;
+		else
+		{
+			chose = horiz_i;
+			game->ray->flag = 1;
+		}
+		draw_fov(game, chose);
+		// render_walls(game, chose, ray);
+		ray++;
+		game->ray->angle += game->increment;
 	}
 }
-
-void draw_angle(t_game *game)
-{
-	float x2;
-	float y2;
-	x2 = game->player_xp + 20 * cos(game->angle);
-	y2 = game->player_yp + 20 * sin(game->angle);
-	// draw_line(game->minimap, game->player_xp, game->player_yp, x2, y2);
-}
-
 void draw_player(t_game *game)
 {
     int	i_start;
     int	j_start;
     int	i_end;
     int	j_end;
-    int player_color;
 	int i;
 
-    player_color = ft_pixel(0xAA,0x00,0xFA,0xFF);
-	int player_square_size = game->player_size / 4;
+	int player_square_size = game->tale_size / 4;
     i_start = game->player_xp - player_square_size / 2;
     j_start = game->player_yp - player_square_size / 2;
     i_end = game->player_xp + player_square_size / 2;
@@ -141,70 +215,40 @@ void draw_player(t_game *game)
 		int j = j_start;
         while (j < j_end)
         {
-            mlx_put_pixel(game->minimap, i, j, player_color);
+            mlx_put_pixel(game->minimap, i, j, YELLOW);
 			j++;
 		}
 		i++;
     }
-	draw_angle(game);
-}
-
-int len2d(char **arr)
-{
-	int i;
-
-	i = 0;
-	while (arr[i])
-		i++;
-	return (i);
 }
 
 
-int biggestline(char **arr)
-{
-	int i;
-	int biggest;
-
-	i = 0;
-	biggest = 0;
-	while (arr[i])
-	{
-		if (ft_strlen(arr[i]) > biggest)
-			biggest = strlen(arr[i]);
-		i++;
-	}
-	return (biggest);
-}
-
-void define_angle(t_game *game, char dir)
-{
-	if (dir == 'N')
-		game->angle = 3 * M_PI_2;
-	else if (dir == 'E')
-		game->angle = M_PI_2;
-	else if (dir == 'S')
-		game->angle = M_PI;
-	else if (dir == 'W')
-		game->angle = 3 * M_PI_2;
-}
 
 void fill_map(t_game *game, t_map *data)
 {
+	int limit_minimap_x;
+	int limit_minimap_y;
+
 	game->map = data->map;
 	game->player_x = data->player_x;
 	game->player_y = data->player_y;
-	printf("player x = %d\n", game->player_x);
-	printf("player y = %d\n", game->player_y);
 	game->map_height = len2d(game->map);
 	game->map_width = biggestline(game->map);
-	int test = 600 / game->map_width;
-	int test2 = 400 / game->map_height;
-	game->player_size = test < test2 ? test : test2;
-	if(game->player_size < 1)
-		game->player_size = 1;
-	game->player_xp = (game->player_x * game->player_size) + (game->player_size / 2);
-	game->player_yp = (game->player_y * game->player_size) + (game->player_size / 2);
-	define_angle(game, data->player_dir);	
+	limit_minimap_x = 800 / game->map_width + 1;
+	limit_minimap_y = 800 / game->map_height +1 ;
+	if(limit_minimap_x < limit_minimap_y)
+		game->tale_size = limit_minimap_x;
+	else
+		game->tale_size = limit_minimap_y;
+	if(game->tale_size < 1)
+		game->tale_size = 1;
+	game->player_xp = (game->player_x * game->tale_size) + (game->tale_size / 2);
+	game->player_yp = (game->player_y * game->tale_size) + (game->tale_size / 2);
+	game->player_square_size_half = game->tale_size / 8;
+	define_angle(game, data->player_dir);
+	game->fov_rd = FOV * M_PI / 180;
+	game->ray = malloc(sizeof(t_ray));
+	game->increment = (game->fov_rd / 800);
 }
 
 int	main(int ac, char **av)
@@ -216,14 +260,12 @@ int	main(int ac, char **av)
 	{
 		first_check(av, &data);
 		map_check(&data);
-		print_all(&data);
-		
 		game = malloc(sizeof(t_game));
-		game->mlx = mlx_init(1400, 1000, "CUB3D", 0);
+		game->mlx = mlx_init(800, 800, "CUB3D", 0);
 		if (!game->mlx)
 			ft_error();
 		fill_map(game, &data);
-		game->minimap = mlx_new_image(game->mlx, game->map_width * game->player_size, game->map_height * game->player_size);
+		game->minimap = mlx_new_image(game->mlx, game->map_width * game->tale_size, game->map_height * game->tale_size);
 		if (!game->minimap)
 			ft_error();
 		mlx_image_to_window(game->mlx, game->minimap, 0, 0);
@@ -233,7 +275,6 @@ int	main(int ac, char **av)
 		free_all(&data);
 	}
 	else
-		print_error("the programme he need just the map \n", 1, NULL);
+		print_error("Usage : ./cub3d maps/map.cub", 1, NULL);
 	return (0);
-
 }

@@ -1,6 +1,8 @@
 {
-    "files.associations": {
-		"stdbool.h": "c",
+	"files.associations": {
+		"math.h": "c",
+		"complex": "c",
+		"cub3d.h": "c",
 		"mlx42.h": "c",
 		"string.h": "c"
 	}

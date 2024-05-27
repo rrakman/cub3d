@@ -6,7 +6,7 @@
 /*   By: rrakman <rrakman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 21:29:08 by hel-moue          #+#    #+#             */
-/*   Updated: 2024/05/20 19:55:37 by rrakman          ###   ########.fr       */
+/*   Updated: 2024/05/22 21:28:08 by rrakman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,10 @@ void	floodfill_check(t_map **data)
 		i++;
 	}
 	flood_fill(mapcpy, (*data)->player_x, (*data)->player_y, (*data)->map_size);
+	// for (i = 0; i < (*data)->map_size; i++)
+	// {
+	// 	printf("%s\n", mapcpy[i]);
+	// }
 	check_valid_map(mapcpy, *data);
 	i = 0;
 	while (i < (*data)->map_size)

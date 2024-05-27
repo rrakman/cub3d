@@ -33,7 +33,6 @@ int	check_path(char *path)
 	return (1);
 }
 
-
 void	first_check(char **argv, t_map *data)
 {
 	data->file_path = argv[1];

@@ -6,7 +6,7 @@
 /*   By: rrakman <rrakman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 22:05:18 by rrakman           #+#    #+#             */
-/*   Updated: 2024/05/20 22:20:23 by rrakman          ###   ########.fr       */
+/*   Updated: 2024/05/27 16:34:36 by rrakman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,28 @@
 #  define BUFFER_SIZE 5
 # endif
 
+# define DARK_BLUE 191970
+# define DARK_ORANGE 0x483C32
+# define DARK_GREEN 0x3e00ed
 
-#define MAP_LENGTH 16
-#define MAP_WIDTH 10
-#define CUBE_SIZE 32
+# define ERROR 1
+# define WHITE 0xFFFFFFFF
+# define BLUE 0xFFFF
+# define RED 0xFF0000FF
+# define PURPLE 0xFF00FFFF
+# define YELLOW 0xFFFF
+# define BLACK 0x00000000
+
+# define GREEN 0x00FF00FF
+# define ORANGE 0xFFA500FF
+# define PINK 0xFF69B4FF
+# define CYAN 0x00FFFFFF
+# define GRAY 0x808080FF
+# define BROWN 0xA52A2AFF
+
 #define FOV 60
+#define S_W 800
 
-
-//---------cub3d Header---------//
 typedef struct s_map
 {
 	char	*file_path;
@@ -43,25 +57,33 @@ typedef struct s_map
 	char	**data_filtered;
 	int 	data_size;
 
-	char	**map;//
+	char	**map;
 	int		map_size;
 	bool	map_exist;
 	bool	map_finsh;
 	
-	int		player_x;//
-	int		player_y;//
-	char 	player_dir;//
+	int		player_x;
+	int		player_y;
+	char 	player_dir;
 
-	char	*no;//
-	char	*so;//
-	char	*we;//
-	char	*ea;//
+	char	*no;
+	char	*so;
+	char	*we;
+	char	*ea;
 
-	int 	*floor_rgb;//
-	int		*ceiling_rgb;//
+	int 	*floor_rgb;
+	int		*ceiling_rgb;
 
 }t_map;
 
+typedef struct s_ray
+{
+	float angle;
+	float distance;
+	float x;
+	float y;
+	int flag;
+}   t_ray;
 
 
 
@@ -69,6 +91,7 @@ typedef struct s_game
 {
 	mlx_t* mlx;
 	mlx_image_t* minimap;
+	mlx_image_t* cub;
 	char **map;
 	int player_x;
 	int player_y;
@@ -77,21 +100,34 @@ typedef struct s_game
 	float angle;
 	int map_height;
 	int map_width;
-	float player_size;
+	float tale_size;
+	int player_square_size_half;
+	float fov_rd;
+	float increment;
+	t_ray *ray;
 }   t_game;
 
 void	draw_minimap(void *param);
 void	draw_player(t_game *game);
-
+void	cast_rays(t_game *game);
 void	ft_hook(void *game);
-void	go_right(t_game *mlx, int player_square_size);
-void	go_left(t_game *mlx, int player_square_size);
-void	go_up(t_game *mlx, int player_square_size);
-void	go_down(t_game *mlx, int player_square_size);
+void	go_right(t_game *mlx);
+void	go_left(t_game *mlx);
+void	go_up(t_game *mlx);
+void	go_down(t_game *mlx);
+
 
 
 // maths
-float degree_to_radian(float degree);
+float	degree_to_radian(float degree);
+void	normalize_angle(float *angle);
+
+//tools
+void	ft_error();
+void draw_square(t_game *game, int x, int y, int color);
+void define_angle(t_game *game, char dir);
+int biggestline(char **arr);
+int len2d(char **arr);
 
 
 // parsing 
