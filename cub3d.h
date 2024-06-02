@@ -6,30 +6,29 @@
 /*   By: rrakman <rrakman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 22:05:18 by rrakman           #+#    #+#             */
-/*   Updated: 2024/05/27 16:34:36 by rrakman          ###   ########.fr       */
+/*   Updated: 2024/05/30 18:30:10 by rrakman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <string.h>
-#include "../MLX42/include/MLX42/MLX42.h"
-#include "math.h"
+# include <stdio.h>
+# include <unistd.h>
+# include <stdlib.h>
+# include <stdbool.h>
+# include <string.h>
 # include <fcntl.h>
+# include "math.h"
+# include "../MLX42/include/MLX42/MLX42.h"
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 5
 # endif
 
 # define DARK_BLUE 191970
-# define DARK_ORANGE 0x483C32
-# define DARK_GREEN 0x3e00ed
+# define DARK_GREEN 0x483C32
+# define DARK_TEST 0x3e00ed
 
 # define ERROR 1
 # define WHITE 0xFFFFFFFF
@@ -46,8 +45,8 @@
 # define GRAY 0x808080FF
 # define BROWN 0xA52A2AFF
 
-#define FOV 60
-#define S_W 800
+# define FOV 60
+# define S_W 800
 
 typedef struct s_map
 {
@@ -56,16 +55,13 @@ typedef struct s_map
 	char	**file_data;
 	char	**data_filtered;
 	int 	data_size;
-
 	char	**map;
 	int		map_size;
 	bool	map_exist;
 	bool	map_finsh;
-	
 	int		player_x;
 	int		player_y;
 	char 	player_dir;
-
 	char	*no;
 	char	*so;
 	char	*we;
@@ -85,10 +81,23 @@ typedef struct s_ray
 	int flag;
 }   t_ray;
 
+typedef struct player_square
+{
+	int top_left_x;
+	int top_right_x;
+	int top_left_y;
+	int top_right_y;
+
+	int	bottom_left_x;
+	int	bottom_right_x;
+	int	bottom_left_y;
+
+}   t_player_square;
 
 
 typedef struct s_game
 {
+	t_map *data;
 	mlx_t* mlx;
 	mlx_image_t* minimap;
 	mlx_image_t* cub;
@@ -170,6 +179,6 @@ void	print_all(t_map *data);
 void	free_all(t_map *data);
 void	first_check(char **argv, t_map *data);
 int	check_path(char *path);
-void	print_error(char *str, int ext, t_map *data);
+// void	print_error(char *str, int ext, t_map *data);
 
 #endif

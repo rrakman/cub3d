@@ -6,7 +6,7 @@
 /*   By: rrakman <rrakman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 21:29:08 by hel-moue          #+#    #+#             */
-/*   Updated: 2024/05/22 21:28:08 by rrakman          ###   ########.fr       */
+/*   Updated: 2024/06/02 17:29:43 by rrakman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,11 @@ void	flood_fill(char **map, int player_x, int player_y, int map_size)
 	flood_fill(map, player_x, player_y - 1, map_size);
 }
 
-
-
 void	floodfill_check(t_map **data)
 {
 	char	**mapcpy;
 	int		i; 
 
-	// pause();
 	mapcpy = (char **)ft_calloc(sizeof(char *), (*data)->map_size + 1);
 	i = 0;
 	while (i < (*data)->map_size)
@@ -41,11 +38,7 @@ void	floodfill_check(t_map **data)
 		mapcpy[i] = ft_strdup((*data)->map[i]);
 		i++;
 	}
-	flood_fill(mapcpy, (*data)->player_x, (*data)->player_y, (*data)->map_size);
-	// for (i = 0; i < (*data)->map_size; i++)
-	// {
-	// 	printf("%s\n", mapcpy[i]);
-	// }
+	flood_fill(mapcpy, (*data)->player_y, (*data)->player_x, (*data)->map_size);
 	check_valid_map(mapcpy, *data);
 	i = 0;
 	while (i < (*data)->map_size)
@@ -72,12 +65,17 @@ void	check_ceiling(t_map **data, char *str)
 	int		j;
 	char	*str2;
 	char	**rgb;
+	char	*tmp;
 
 	i = 0;
 	j = 0;
 	if ((*data)->ceiling_rgb)
 		print_error("Ceiling color already defined\n", 1, *data);
-	str2 = ft_strtrim(ft_strdup(str + 2), " \t");
+	str2 = ft_strdup(str + 2);
+	
+	tmp = str2;
+	str2 = ft_strtrim(str2, " \t");
+	free(tmp);
 	rgb = ft_split(str2, ',');
 	check_rgb(rgb, data, &i);
 	if (i != 3)

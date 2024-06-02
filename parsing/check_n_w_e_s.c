@@ -6,7 +6,7 @@
 /*   By: rrakman <rrakman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 21:37:16 by hel-moue          #+#    #+#             */
-/*   Updated: 2024/05/20 19:55:05 by rrakman          ###   ########.fr       */
+/*   Updated: 2024/06/02 17:27:27 by rrakman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	check_no(t_map **data, char *str)
 		print_error("NO path already defined\n", 1, *data);
 	(*data)->no = ft_strtrim(str2, " \t");
 	check_th((*data)->no, *data);
+	free(str2);
 }
 
 void	check_so(t_map **data, char *str)
@@ -49,6 +50,7 @@ void	check_so(t_map **data, char *str)
 		print_error("SO path already defined\n", 1, *data);
 	(*data)->so = ft_strtrim(str2, " \t");
 	check_th((*data)->so, *data);
+	free(str2);
 }
 
 void	check_we(t_map **data, char *str)
@@ -60,6 +62,7 @@ void	check_we(t_map **data, char *str)
 		print_error("WE path already defined\n", 1, *data);
 	(*data)->we = ft_strtrim(str2, " \t");
 	check_th((*data)->we, *data);
+	free(str2);
 }
 
 void	check_ea(t_map **data, char *str)
@@ -71,4 +74,5 @@ void	check_ea(t_map **data, char *str)
 		print_error("EA path already defined\n", 1, *data);
 	(*data)->ea = ft_strtrim(str2, " \t");
 	check_th((*data)->ea, *data);
+	free(str2);
 }

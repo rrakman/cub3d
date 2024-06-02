@@ -6,7 +6,7 @@
 /*   By: rrakman <rrakman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 21:21:22 by hel-moue          #+#    #+#             */
-/*   Updated: 2024/05/20 20:09:51 by rrakman          ###   ########.fr       */
+/*   Updated: 2024/06/02 17:28:28 by rrakman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,15 @@ void	check_floor(t_map **data, char *str)
 	int		i;
 	char	*str2;
 	char	**rgb;
+	char	*tmp;
 
 	i = -1;
 	if ((*data)->floor_rgb)
 		print_error("Floor color already defined\n", 1, *data);
 	str2 = ft_strdup(str + 2);
+	tmp = str2;
 	str2 = ft_strtrim(str2, " \t");
+	free(tmp);
 	rgb = ft_split(str2, ',');
 	while (rgb[++i])
 		if (is_digit_str(rgb[i]) == 0)

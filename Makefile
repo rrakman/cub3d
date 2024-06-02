@@ -1,6 +1,6 @@
 NAME	:= CUB3D
 CC := gcc
-CFLAGS	:= -Wextra -Wall -Werror -g -fsanitize=address
+CFLAGS	:= -Wextra -Wall -Werror #-g -fsanitize=address
 LIBMLX	:= ../MLX42/build/libmlx42.a
 LIBFLAGS := -framework Cocoa -framework OpenGL -framework IOKit
 GLFWPATH := /Users/rrakman//MLX42/build/_deps/glfw-build/src/libglfw3.a
