@@ -6,7 +6,7 @@
 /*   By: rrakman <rrakman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 21:29:08 by hel-moue          #+#    #+#             */
-/*   Updated: 2024/06/02 17:29:43 by rrakman          ###   ########.fr       */
+/*   Updated: 2024/06/03 17:20:33 by rrakman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	check_rgb(char **rgb, t_map **data, int *i)
 	while (rgb[*i])
 	{
 		if (!is_digit_str(rgb[*i]))
-			print_error("RGB value must be a number\n", 1, *data);
+			print_error("RGB value must be a number", 1, *data);
 		(*i)++;
 	}
 }
@@ -70,22 +70,21 @@ void	check_ceiling(t_map **data, char *str)
 	i = 0;
 	j = 0;
 	if ((*data)->ceiling_rgb)
-		print_error("Ceiling color already defined\n", 1, *data);
+		print_error("Ceiling color already defined", 1, *data);
 	str2 = ft_strdup(str + 2);
-	
 	tmp = str2;
 	str2 = ft_strtrim(str2, " \t");
 	free(tmp);
 	rgb = ft_split(str2, ',');
 	check_rgb(rgb, data, &i);
 	if (i != 3)
-		print_error("Ceiling color must be in RGB format\n", 1, *data);
+		print_error("Ceiling color must be in RGB format", 1, *data);
 	(*data)->ceiling_rgb = (int *)ft_calloc(sizeof(int), 3);
 	while (j < 3)
 	{
 		(*data)->ceiling_rgb[j] = ft_atoi(rgb[j]);
 		if ((*data)->ceiling_rgb[j] < 0 || (*data)->ceiling_rgb[j] > 255)
-			print_error("RGB value must be between 0 and 255\n", 1, *data);
+			print_error("RGB value must be between 0 and 255", 1, *data);
 		j++;
 	}
 	i = 0;

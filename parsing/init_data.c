@@ -6,7 +6,7 @@
 /*   By: rrakman <rrakman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 17:01:23 by hel-moue          #+#    #+#             */
-/*   Updated: 2024/05/20 19:55:20 by rrakman          ###   ########.fr       */
+/*   Updated: 2024/06/03 17:18:54 by rrakman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char	**alloc_data(int size)
 	i = 0;
 	data = (char **)malloc(sizeof(char *) * (size + 1));
 	if (!data)
-		print_error("Malloc failed [ERROR 7]\n", 1, NULL);
+		print_error("Malloc failed [ERROR 7]", 1, NULL);
 	while (i < size)
 	{
 		data[i] = NULL;

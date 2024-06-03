@@ -6,7 +6,7 @@
 /*   By: rrakman <rrakman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 21:21:22 by hel-moue          #+#    #+#             */
-/*   Updated: 2024/06/02 17:28:28 by rrakman          ###   ########.fr       */
+/*   Updated: 2024/06/03 17:19:46 by rrakman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,16 @@ void	check_valid_map(char **map, t_map *data)
 			{
 				if (i == 0 || i == data->map_size - 1 || j == 0 
 					|| j == ft_strlen(map[i]) - 1)
-					print_error("Map not closed\n", 1, data);
+					print_error("Map not closed", 1, data);
 				if (map[i - 1][j] == 0 || map[i + 1][j] == 0 
 					|| map[i][j - 1] == 0 || map[i][j + 1] == 0)
-					print_error("Map not closed\n", 1, data);
+					print_error("Map not closed", 1, data);
 				if (map[i - 1][j] == ' ' || map[i + 1][j] == ' ' 
 					|| map[i][j - 1] == ' ' || map[i][j + 1] == ' ')
-					print_error("Map not closed\n", 1, data);
+					print_error("Map not closed", 1, data);
 				if (map[i - 1][j] == '\n' || map[i + 1][j] == '\n' 
 					|| map[i][j - 1] == '\n' || map[i][j + 1] == '\n')
-					print_error("Map not closed\n", 1, data);
+					print_error("Map not closed", 1, data);
 			}
 			j++;
 		}
@@ -69,7 +69,7 @@ void	check_floor(t_map **data, char *str)
 
 	i = -1;
 	if ((*data)->floor_rgb)
-		print_error("Floor color already defined\n", 1, *data);
+		print_error("Floor color already defined", 1, *data);
 	str2 = ft_strdup(str + 2);
 	tmp = str2;
 	str2 = ft_strtrim(str2, " \t");
@@ -77,16 +77,16 @@ void	check_floor(t_map **data, char *str)
 	rgb = ft_split(str2, ',');
 	while (rgb[++i])
 		if (is_digit_str(rgb[i]) == 0)
-			print_error("Floor color must be in RGB format (F digit)\n", 1, *data);
+			print_error("Floor color must be in RGB format (F digit)", 1, *data);
 	if (i != 3)
-		print_error("Floor color must be in RGB format\n", 1, *data);
+		print_error("Floor color must be in RGB format", 1, *data);
 	i = -1;
 	(*data)->floor_rgb = (int *)ft_calloc(sizeof(int), 3);
 	while (++i < 3)
 	{
 		(*data)->floor_rgb[i] = ft_atoi(rgb[i]);
 		if ((*data)->floor_rgb[i] < 0 || (*data)->floor_rgb[i] > 255)
-			print_error("RGB value must be between 0 and 255\n", 1, *data);
+			print_error("RGB value must be between 0 and 255", 1, *data);
 	}
 	i = -1;
 	while (rgb[++i])
@@ -110,7 +110,7 @@ void	player_check(t_map *data)
 				|| data->map[i][j] == 'W' || data->map[i][j] == 'E')
 			{
 				if (data->player_x != -1 || data->player_y != -1)
-					print_error("Multiple player\n", 1, data);
+					print_error("Multiple player", 1, data);
 				data->player_x = j;
 				data->player_y = i;
 				data->player_dir = data->map[i][j];
@@ -119,12 +119,12 @@ void	player_check(t_map *data)
 				&& data->map[i][j] != ' ' && data->map[i][j] != '\n'
 				&& data->map[i][j] != 13)
 				{
-					print_error("Invalid character in map\n", 1, data);
+					print_error("Invalid character in map", 1, data);
 				}
 		}
 	}
 	if (data->player_x == -1 || data->player_y == -1)
-		print_error("No player\n", 1, NULL);
+		print_error("No player", 1, NULL);
 }
 
 void	map_check(t_map *data)

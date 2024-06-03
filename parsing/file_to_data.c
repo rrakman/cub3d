@@ -6,7 +6,7 @@
 /*   By: rrakman <rrakman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 17:06:00 by hel-moue          #+#    #+#             */
-/*   Updated: 2024/05/20 19:55:08 by rrakman          ###   ########.fr       */
+/*   Updated: 2024/06/03 17:18:47 by rrakman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	check_line_one(char *str)
 		&& str[0] != '1' && str[0] != '0' 
 		&& str[0] != '\0' && str[0] != '\n' 
 		&& str[0] != 13)
-		print_error("Invalid Map [ERROR 15]\n", 1, NULL);
+		print_error("Invalid Map [ERROR 15]", 1, NULL);
 }
 
 int	check_line_two(char *str)
@@ -89,7 +89,7 @@ void	file_to_arr(t_map **data)
 					(*data)->map_exist = true;
 				}
 				if ((*data)->map_finsh == true)
-					print_error("Map not at the end\n", 1, *data);
+					print_error("Map not at the end", 1, *data);
 				(*data)->map[(*data)->map_size] = ft_strdup((*data)->file_data[i]);
 				(*data)->map_size++;
 			}

@@ -1,11 +1,23 @@
-#include"cub3d.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   math.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rrakman <rrakman@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/03 14:39:33 by rrakman           #+#    #+#             */
+/*   Updated: 2024/06/03 14:39:55 by rrakman          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-float degree_to_radian(float degree)
+#include "cub3d.h"
+
+float	degree_to_radian(float degree)
 {
 	return (degree * (M_PI / 180));
 }
 
-void normalize_angle(float *angle)
+void	normalize_angle(float *angle)
 {
 	if (*angle < 0)
 		*angle += 2 * M_PI;

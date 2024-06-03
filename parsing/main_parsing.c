@@ -37,28 +37,9 @@ void	first_check(char **argv, t_map *data)
 {
 	data->file_path = argv[1];
 	if (check_path(data->file_path))
-		print_error("File extension must finish by .cub\n", 1, NULL);
+		print_error("File extension must finish by .cub", 1, NULL);
 	data->fd_file = open(data->file_path, O_RDONLY);
 	if (data->fd_file == -1)
-		print_error("Error Can't open the file \n", 1, NULL);
+		print_error("Error Can't open the file", 1, NULL);
 	return ;
 }
-
-// void	check_theline_map(char *str, t_map *data)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (str[i])
-// 	{
-// 		if (str[i] != '\n' && str[i] != 13 && str[i] != '1' 
-// 			&& str[i] != '0' && str[i] != ' ' 
-// 			&& str[i] != 'N' && str[i] != 'S' && str[i] != 'W'
-// 			&& str[i] != 'E' )
-// 			print_error("Invalid character in map\n", 1, data);
-// 		i++;
-// 	}
-// }
-
-
-

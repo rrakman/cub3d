@@ -6,7 +6,7 @@
 /*   By: rrakman <rrakman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 21:32:17 by hel-moue          #+#    #+#             */
-/*   Updated: 2024/05/20 19:55:11 by rrakman          ###   ########.fr       */
+/*   Updated: 2024/06/03 16:00:51 by rrakman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ char	**ft_split(char *s1, char c)
 	char	**str;
 
 	i = 0;
-	j = 0;
 	k = 0;
 	str = (char **)ft_calloc(sizeof(char *), (ft_strlen(s1) + 1));
 	while (s1[i])
