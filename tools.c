@@ -6,7 +6,7 @@
 /*   By: rrakman <rrakman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 22:12:07 by rrakman           #+#    #+#             */
-/*   Updated: 2024/05/30 15:22:10 by rrakman          ###   ########.fr       */
+/*   Updated: 2024/06/03 23:48:44 by rrakman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,26 +18,9 @@ void	ft_error(void)
 	exit(EXIT_FAILURE);
 }
 
-void	draw_square(t_game *game, int x, int y, int color)
+int	ft_pixel(int r, int g, int b, int a)
 {
-	int	i;
-	int	j;
-
-	i = 0;
-	while (i < game->tale_size)
-	{
-		j = 0;
-		while (j < game->tale_size)
-		{
-			if (i == 0 || j == 0 || i == game->tale_size - 1 \
-				|| j == game->tale_size - 1)
-				mlx_put_pixel(game->minimap, x + i, y + j, BLUE);
-			else
-				mlx_put_pixel(game->minimap, x + i, y + j, color);
-			j++;
-		}
-		i++;
-	}
+	return (r << 24 | g << 16 | b << 8 | a);
 }
 
 int	len2d(char **arr)

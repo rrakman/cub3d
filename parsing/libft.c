@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rrakman <rrakman@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hel-moue <hel-moue@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 21:31:02 by hel-moue          #+#    #+#             */
-/*   Updated: 2024/05/20 19:55:25 by rrakman          ###   ########.fr       */
+/*   Updated: 2024/06/03 17:53:21 by hel-moue         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,5 @@ char	*ft_strtrim(char *s1, char *set)
 		k++;
 	}
 	str[k] = '\0';
-	// free(s1);
 	return (str);
 }

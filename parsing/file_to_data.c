@@ -6,7 +6,7 @@
 /*   By: rrakman <rrakman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 17:06:00 by hel-moue          #+#    #+#             */
-/*   Updated: 2024/06/03 17:18:47 by rrakman          ###   ########.fr       */
+/*   Updated: 2024/06/03 23:52:58 by rrakman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,12 +73,16 @@ void	file_to_arr(t_map **data)
 	(*data)->data_size = data_count((*data)->fd_file);
 	(*data)->file_data = alloc_data((*data)->data_size);
 	(*data)->fd_file = open((*data)->file_path, O_RDONLY);
-	while (((*data)->file_data[i] = get_next_line((*data)->fd_file)))
+	(*data)->file_data[i] = get_next_line((*data)->fd_file);
+	while ((*data)->file_data[i])
 	{
-		str = ft_strtrim((*data)->file_data[i], " \t");
+		str = ft_strtrim((*data)->file_data[i], " \t\n");
 		check_line_one(str);
 		if (check_line_two(str) == 1)
 			check_n_s_w_e(data, str);
+		if (check_line_two(str) == 0 && str[0] != '\n'\
+				&& str[0] != '\0' && str[0] != '0' && str[0] != '1')
+			print_error("Invalid Map [ERROR 14]", 1, *data);
 		else if ((str[0] == '1' || str[0] == '0'))
 		{
 			if (data_check(data) == true)
@@ -90,7 +94,8 @@ void	file_to_arr(t_map **data)
 				}
 				if ((*data)->map_finsh == true)
 					print_error("Map not at the end", 1, *data);
-				(*data)->map[(*data)->map_size] = ft_strdup((*data)->file_data[i]);
+				(*data)->map[(*data)->map_size]
+					= ft_strdup((*data)->file_data[i]);
 				(*data)->map_size++;
 			}
 			else
@@ -100,6 +105,7 @@ void	file_to_arr(t_map **data)
 			(*data)->map_finsh = true;
 		i++;
 		free(str);
+		(*data)->file_data[i] = get_next_line((*data)->fd_file);
 	}
 	close((*data)->fd_file);
 	return ;

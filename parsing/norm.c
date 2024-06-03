@@ -6,7 +6,7 @@
 /*   By: rrakman <rrakman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 21:29:08 by hel-moue          #+#    #+#             */
-/*   Updated: 2024/06/03 17:20:33 by rrakman          ###   ########.fr       */
+/*   Updated: 2024/06/03 22:45:54 by rrakman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,29 @@ void	floodfill_check(t_map **data)
 
 void	check_rgb(char **rgb, t_map **data, int *i)
 {
+	++(*i);
 	while (rgb[*i])
 	{
 		if (!is_digit_str(rgb[*i]))
 			print_error("RGB value must be a number", 1, *data);
 		(*i)++;
 	}
+	if (*i != 3)
+		print_error("RGB value must be in RGB format", 1, *data);
+}
+
+void	free_norm(char **rgb, char *str2)
+{
+	int	i;
+
+	i = 0;
+	while (rgb[i])
+	{
+		free(rgb[i]);
+		i++;
+	}
+	free(rgb);
+	free(str2);
 }
 
 void	check_ceiling(t_map **data, char *str)
@@ -68,7 +85,7 @@ void	check_ceiling(t_map **data, char *str)
 	char	*tmp;
 
 	i = 0;
-	j = 0;
+	j = -1;
 	if ((*data)->ceiling_rgb)
 		print_error("Ceiling color already defined", 1, *data);
 	str2 = ft_strdup(str + 2);
@@ -76,20 +93,14 @@ void	check_ceiling(t_map **data, char *str)
 	str2 = ft_strtrim(str2, " \t");
 	free(tmp);
 	rgb = ft_split(str2, ',');
+	check_ntwo(str2, *data);
 	check_rgb(rgb, data, &i);
-	if (i != 3)
-		print_error("Ceiling color must be in RGB format", 1, *data);
 	(*data)->ceiling_rgb = (int *)ft_calloc(sizeof(int), 3);
-	while (j < 3)
+	while (++j < 3)
 	{
 		(*data)->ceiling_rgb[j] = ft_atoi(rgb[j]);
 		if ((*data)->ceiling_rgb[j] < 0 || (*data)->ceiling_rgb[j] > 255)
 			print_error("RGB value must be between 0 and 255", 1, *data);
-		j++;
 	}
-	i = 0;
-	while (rgb[i])
-		free(rgb[i++]);
-	free(rgb);
-	free(str2);
+	free_norm(rgb, str2);
 }

@@ -6,7 +6,7 @@
 /*   By: rrakman <rrakman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 18:27:49 by rrakman           #+#    #+#             */
-/*   Updated: 2024/06/03 16:03:41 by rrakman          ###   ########.fr       */
+/*   Updated: 2024/06/03 23:50:43 by rrakman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,13 @@ void	ft_hook(void *game)
 	if (mlx_is_key_down(mlx->mlx, MLX_KEY_RIGHT))
 		go_right(mlx);
 	if (mlx_is_key_down(mlx->mlx, MLX_KEY_A))
+	{
+		normalize_angle(&mlx->angle);
 		mlx->angle -= degree_to_radian(2);
+	}
 	if (mlx_is_key_down(mlx->mlx, MLX_KEY_D))
+	{
+		normalize_angle(&mlx->angle);
 		mlx->angle += degree_to_radian(2);
+	}
 }

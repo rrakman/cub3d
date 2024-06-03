@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub.h                                              :+:      :+:    :+:   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rrakman <rrakman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 22:05:18 by rrakman           #+#    #+#             */
-/*   Updated: 2024/06/03 17:23:35 by rrakman          ###   ########.fr       */
+/*   Updated: 2024/06/03 23:54:36 by rrakman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,8 @@ void			draw_square(t_game *game, int x, int y, int color);
 void			define_angle(t_game *game, char dir);
 int				biggestline(char **arr);
 int				len2d(char **arr);
+int				ft_pixel(int r, int g, int b, int a);
+
 // parsing
 
 // player moves tools
@@ -156,15 +158,20 @@ int				ft_strlen(char *str);
 int				ft_strchr(char *s1, char s2);
 void			*ft_calloc(unsigned int size, unsigned int len);
 char			*get_next_line(int fd);
+int				ft_isdigit(int c);
 
 void			init_struct(t_map **data);
+void			free_norm(char **rgb, char *str2);
+
 void			file_to_arr(t_map **data);
 void			check_no(t_map **data, char *str);
+void			check_ntwo(char *str, t_map *data);
 void			check_so(t_map **data, char *str);
 void			check_we(t_map **data, char *str);
 void			check_ea(t_map **data, char *str);
 void			check_floor(t_map **data, char *str);
 void			check_ceiling(t_map **data, char *str);
+void			check_rgb(char **rgb, t_map **data, int *i);
 void			print_error(char *str, int i, t_map *data);
 char			*ft_strtrim(char *s1, char *set);
 char			**ft_split(char *s, char c);
@@ -189,6 +196,5 @@ void			print_all(t_map *data);
 void			free_all(t_map *data);
 void			first_check(char **argv, t_map *data);
 int				check_path(char *path);
-// void	print_error(char *str, int ext, t_map *data);
 
 #endif

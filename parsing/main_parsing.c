@@ -20,6 +20,13 @@ void	print_error(char *str, int ext, t_map *data)
 	exit(ext);
 }
 
+int	ft_isdigit(int c)
+{
+	if (c >= '0' && c <= '9')
+		return (1);
+	return (0);
+}
+
 int	check_path(char *path)
 {
 	int	i;
@@ -42,4 +49,12 @@ void	first_check(char **argv, t_map *data)
 	if (data->fd_file == -1)
 		print_error("Error Can't open the file", 1, NULL);
 	return ;
+}
+
+void	map_check(t_map *data)
+{
+	init_struct(&data);
+	file_to_arr(&data);
+	player_check(data);
+	floodfill_check(&data);
 }
