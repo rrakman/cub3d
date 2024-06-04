@@ -6,7 +6,7 @@
 /*   By: rrakman <rrakman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 22:05:18 by rrakman           #+#    #+#             */
-/*   Updated: 2024/06/03 23:54:36 by rrakman          ###   ########.fr       */
+/*   Updated: 2024/06/04 13:17:58 by rrakman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,5 +196,7 @@ void			print_all(t_map *data);
 void			free_all(t_map *data);
 void			first_check(char **argv, t_map *data);
 int				check_path(char *path);
+void			all_checks(t_map **data, char *str, int i);
+int				check_line_two(char *str);
 
 #endif
