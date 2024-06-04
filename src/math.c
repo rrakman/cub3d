@@ -6,11 +6,11 @@
 /*   By: rrakman <rrakman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 14:39:33 by rrakman           #+#    #+#             */
-/*   Updated: 2024/06/03 14:39:55 by rrakman          ###   ########.fr       */
+/*   Updated: 2024/06/04 13:26:09 by rrakman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../cub3d.h"
 
 float	degree_to_radian(float degree)
 {

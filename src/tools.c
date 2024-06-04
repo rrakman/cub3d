@@ -6,11 +6,11 @@
 /*   By: rrakman <rrakman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 22:12:07 by rrakman           #+#    #+#             */
-/*   Updated: 2024/06/03 23:48:44 by rrakman          ###   ########.fr       */
+/*   Updated: 2024/06/04 13:26:19 by rrakman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../cub3d.h"
 
 void	ft_error(void)
 {

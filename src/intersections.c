@@ -6,11 +6,11 @@
 /*   By: rrakman <rrakman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:05:42 by rrakman           #+#    #+#             */
-/*   Updated: 2024/06/03 16:11:34 by rrakman          ###   ########.fr       */
+/*   Updated: 2024/06/04 13:26:01 by rrakman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../cub3d.h"
 
 int	wall_hit(t_game *game, float x, float y)
 {

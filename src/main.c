@@ -6,11 +6,11 @@
 /*   By: rrakman <rrakman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 22:05:18 by rrakman           #+#    #+#             */
-/*   Updated: 2024/06/03 22:29:49 by rrakman          ###   ########.fr       */
+/*   Updated: 2024/06/04 13:53:32 by rrakman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../cub3d.h"
 
 void	fill_map(t_game *game, t_map *data)
 {

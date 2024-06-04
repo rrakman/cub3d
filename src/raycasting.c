@@ -6,11 +6,11 @@
 /*   By: rrakman <rrakman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 18:00:21 by rrakman           #+#    #+#             */
-/*   Updated: 2024/06/03 21:31:04 by rrakman          ###   ########.fr       */
+/*   Updated: 2024/06/04 13:26:17 by rrakman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../cub3d.h"
 
 int	get_color(t_game *game, int flag)
 {

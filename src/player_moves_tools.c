@@ -6,11 +6,11 @@
 /*   By: rrakman <rrakman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 15:16:40 by rrakman           #+#    #+#             */
-/*   Updated: 2024/06/03 16:03:14 by rrakman          ###   ########.fr       */
+/*   Updated: 2024/06/04 13:26:12 by rrakman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../cub3d.h"
 
 void	go_down(t_game *mlx)
 {
