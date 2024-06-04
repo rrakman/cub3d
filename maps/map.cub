@@ -3,7 +3,7 @@ SO ./textures/Wheat_Field.png
 WE ./textures/the_starry_night.png
 EA ./textures/girl_with_a_pearl_earring.png
 
-F 255,0,0
+F 255,0,0,,
 C 100,0,0
 
 			11111111111111111111111111     

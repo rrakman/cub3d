@@ -6,7 +6,7 @@
 /*   By: rrakman <rrakman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 21:21:22 by hel-moue          #+#    #+#             */
-/*   Updated: 2024/06/03 23:57:04 by rrakman          ###   ########.fr       */
+/*   Updated: 2024/06/04 14:46:05 by rrakman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ void	check_ntwo(char *str, t_map *data)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == ',' && str[i + 1] == ',')
+		if ((str[i] == ',' && str[i + 1] == ',') \
+			|| (str[i] == ',' && (str[i + 1] == '\0' || str[i + 1] == '\n')))
 			print_error("RGB value must be in RGB format[,]", 1, data);
 		i++;
 	}
