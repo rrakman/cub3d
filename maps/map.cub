@@ -1,7 +1,7 @@
-NO ./textures/pp.png
-SO ./textures/pp.png
-WE ./textures/pp.png
-EA ./textures/pp.png
+NO ./textures/stone.png
+SO ./textures/stone.png
+WE ./textures/stone.png
+EA ./textures/stone.png
 
 
 F 80,80,80
