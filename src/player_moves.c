@@ -6,7 +6,7 @@
 /*   By: rrakman <rrakman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 18:27:49 by rrakman           #+#    #+#             */
-/*   Updated: 2024/06/04 13:26:15 by rrakman          ###   ########.fr       */
+/*   Updated: 2024/06/09 19:09:27 by rrakman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,20 +39,20 @@ void	ft_hook(void *game)
 	cast_rays(game);
 	if (mlx_is_key_down(mlx->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(mlx->mlx);
-	if (mlx_is_key_down(mlx->mlx, MLX_KEY_DOWN))
+	if (mlx_is_key_down(mlx->mlx, MLX_KEY_S))
 		go_down(mlx);
-	if (mlx_is_key_down(mlx->mlx, MLX_KEY_UP))
+	if (mlx_is_key_down(mlx->mlx, MLX_KEY_W))
 		go_up(mlx);
-	if (mlx_is_key_down(mlx->mlx, MLX_KEY_LEFT))
-		go_left(mlx);
-	if (mlx_is_key_down(mlx->mlx, MLX_KEY_RIGHT))
-		go_right(mlx);
 	if (mlx_is_key_down(mlx->mlx, MLX_KEY_A))
+		go_left(mlx);
+	if (mlx_is_key_down(mlx->mlx, MLX_KEY_D))
+		go_right(mlx);
+	if (mlx_is_key_down(mlx->mlx, MLX_KEY_LEFT))
 	{
 		normalize_angle(&mlx->angle);
 		mlx->angle -= degree_to_radian(2);
 	}
-	if (mlx_is_key_down(mlx->mlx, MLX_KEY_D))
+	if (mlx_is_key_down(mlx->mlx, MLX_KEY_RIGHT))
 	{
 		normalize_angle(&mlx->angle);
 		mlx->angle += degree_to_radian(2);
