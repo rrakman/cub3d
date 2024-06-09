@@ -6,7 +6,7 @@
 /*   By: rrakman <rrakman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 22:05:18 by rrakman           #+#    #+#             */
-/*   Updated: 2024/06/04 13:53:32 by rrakman          ###   ########.fr       */
+/*   Updated: 2024/06/09 17:43:31 by rrakman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ void	fill_map(t_game *game, t_map *data)
 	define_angle(game, data->player_dir);
 	game->fov_rd = FOV * M_PI / 180;
 	game->ray = malloc(sizeof(t_ray));
+	if (!game->ray)
+		print_error("Malloc failed", 1, game->data);
 	game->increment = (game->fov_rd / 800);
 }
 
@@ -35,15 +37,12 @@ void	run_game(t_map *data, t_game *game)
 {
 	game->data = data;
 	fill_map(game, data);
-	game->mlx = mlx_init(800, 800, "CUB3D", 0);
+	game->mlx = mlx_init(800, 800, "cub3D", 0);
 	if (!game->mlx)
 		ft_error();
-	game->minimap = mlx_new_image(game->mlx, game->map_width
-			* game->tale_size, game->map_height * game->tale_size);
 	game->cub = mlx_new_image(game->mlx, 800, 800);
 	if (!game->cub)
 		ft_error();
-	mlx_image_to_window(game->mlx, game->minimap, 0, 0);
 	mlx_image_to_window(game->mlx, game->cub, 0, 0);
 	mlx_loop_hook(game->mlx, ft_hook, game);
 	mlx_loop(game->mlx);

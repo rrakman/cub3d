@@ -57,4 +57,19 @@ void	map_check(t_map *data)
 	file_to_arr(&data);
 	player_check(data);
 	floodfill_check(&data);
+	data->texture = malloc(sizeof(t_texture));
+	if (!data->texture)
+		print_error("Malloc failed", 1, data);
+	data->texture->no = mlx_load_png(data->no);
+	data->texture->so = mlx_load_png(data->so);
+	data->texture->we = mlx_load_png(data->we);
+	data->texture->ea = mlx_load_png(data->ea);
+	if (data->texture->no->height != 32 || data->texture->no->width != 32 \
+		|| data->texture->so->height != 32 || data->texture->so->width != 32 \
+		|| data->texture->we->height != 32 || data->texture->we->width != 32 \
+		|| data->texture->ea->height != 32 || data->texture->ea->width != 32)
+		print_error("Texture must be 32x32", 1, data);
+	if (!data->texture->no || !data->texture->so \
+		|| !data->texture->we || !data->texture->ea)
+		print_error("Texture not found", 1, data);
 }

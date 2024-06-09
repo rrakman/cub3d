@@ -6,7 +6,7 @@
 /*   By: rrakman <rrakman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 22:05:18 by rrakman           #+#    #+#             */
-/*   Updated: 2024/06/04 13:17:58 by rrakman          ###   ########.fr       */
+/*   Updated: 2024/06/09 17:50:24 by rrakman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,14 @@
 # define FOV 60
 # define S_W 800
 
+typedef struct s_texture
+{
+	mlx_texture_t		*no;
+	mlx_texture_t		*so;
+	mlx_texture_t		*we;
+	mlx_texture_t		*ea;
+}				t_texture;
+
 typedef struct s_map
 {
 	char		*file_path;
@@ -69,7 +77,7 @@ typedef struct s_map
 
 	int			*floor_rgb;
 	int			*ceiling_rgb;
-
+	t_texture	*texture;
 }				t_map;
 
 typedef struct s_ray
@@ -78,10 +86,14 @@ typedef struct s_ray
 	float		distance;
 	float		x;
 	float		y;
+	float		x_h;
+	float		y_h;
+	float		x_v;
+	float		y_v;
 	int			flag;
 }				t_ray;
 
-typedef struct player_square
+typedef struct s_player_square
 {
 	int			top_left_x;
 	int			top_right_x;
@@ -108,7 +120,8 @@ typedef struct s_game
 	float		angle;
 	int			map_height;
 	int			map_width;
-	float		tale_size;
+	int			tale_size;
+	double		wall_h;
 	int			pssh;
 	float		fov_rd;
 	float		increment;
@@ -127,6 +140,13 @@ void			go_down(t_game *mlx);
 // maths
 float			degree_to_radian(float degree);
 void			normalize_angle(float *angle);
+void			calcul_intersections(t_game *g, double *h_i, \
+					double *v_i, double *chose);
+
+// textures
+int				get_color_at(int offset_x, int offset_y, \
+					mlx_texture_t *texture);
+mlx_texture_t	*get_right_texture(t_game *game);
 
 // tools
 void			ft_error(void);
@@ -147,11 +167,11 @@ void			go_right(t_game *mlx);
 
 // intersctions
 int				wall_hit(t_game *game, float x, float y);
-int				inter_check(t_game *game, float *inter, float *step,
+int				inter_add_step(t_game *game, float *inter, float *step,
 					int is_horizon);
 int				check_angle(float angle, char c);
-float			horizontal_intersection(t_game *game);
-float			vertical_intersection(t_game *game);
+double			horizontal_intersection(t_game *game);
+double			vertical_intersection(t_game *game);
 
 char			*ft_strjoin(char *s1, char *s2);
 int				ft_strlen(char *str);

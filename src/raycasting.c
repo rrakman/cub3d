@@ -6,38 +6,46 @@
 /*   By: rrakman <rrakman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 18:00:21 by rrakman           #+#    #+#             */
-/*   Updated: 2024/06/04 13:26:17 by rrakman          ###   ########.fr       */
+/*   Updated: 2024/06/09 17:50:43 by rrakman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-int	get_color(t_game *game, int flag)
+void	calculate_offset_x(t_game *game, float *offset_x)
 {
-	normalize_angle(&game->ray->angle);
-	if (flag == 0)
-	{
-		if (game->ray->angle > M_PI / 2 && game->ray->angle < 3 * (M_PI / 2))
-			return (WHITE);
-		else
-			return (WHITE);
-	}
+	if (game->ray->flag == 1)
+		*offset_x = fmod((int)(game->ray)->y, game->tale_size);
 	else
-	{
-		if (game->ray->angle > 0 && game->ray->angle < M_PI)
-			return (DARK_GREEN);
-		else
-			return (DARK_GREEN);
-	}
+		*offset_x = fmod((int)(game->ray)->x, game->tale_size);
 }
 
 void	draw_wall(t_game *game, int ray, int t_pix, int b_pix)
 {
-	int	color;
+	int				color;
+	mlx_texture_t	*texture;
+	float			offset_x;
+	int				distance_from_top;
+	float			offset_y;
 
-	color = get_color(game, game->ray->flag);
+	texture = get_right_texture(game);
+	t_pix = fmax(0, (S_W / 2) - (game->wall_h / 2));
+	b_pix = fmin(S_W, (S_W / 2) + (game->wall_h / 2));
+	calculate_offset_x(game, &offset_x);
 	while (t_pix < b_pix)
-		mlx_put_pixel(game->cub, ray, t_pix++, color);
+	{
+		distance_from_top = t_pix - ((int)((S_W / 2) \
+			- ((int)game->wall_h / 2)));
+		offset_y = distance_from_top * ((float)texture->height
+				/ (int)game->wall_h);
+		if (offset_y >= texture->height)
+			offset_y = texture->height;
+		if (offset_y < 0)
+			offset_y = 0;
+		color = get_color_at(offset_x, offset_y, texture);
+		mlx_put_pixel(game->cub, ray, t_pix, color);
+		t_pix++;
+	}
 }
 
 void	draw_floor_ceiling(t_game *game, int ray, int t_pix, int b_pix)
@@ -54,9 +62,8 @@ void	draw_floor_ceiling(t_game *game, int ray, int t_pix, int b_pix)
 				game->data->ceiling_rgb[1], game->data->ceiling_rgb[2], 255));
 }
 
-void	render_walls(t_game *game, float distance, int ray)
+void	render_walls(t_game *game, double distance, int ray)
 {
-	float	wall_h;
 	float	b_pix;
 	float	t_pix;
 	float	angle;
@@ -64,13 +71,10 @@ void	render_walls(t_game *game, float distance, int ray)
 	angle = game->ray->angle - game->angle;
 	normalize_angle(&angle);
 	distance *= cos(angle);
-	wall_h = (game->tale_size / distance) * ((S_W / 2) / tan(game->fov_rd / 2));
-	b_pix = (S_W / 2) + (wall_h / 2);
-	t_pix = (S_W / 2) - (wall_h / 2);
-	if (b_pix > S_W)
-		b_pix = S_W;
-	if (t_pix < 0)
-		t_pix = 0;
+	game->wall_h = (game->tale_size / distance) * ((S_W / 2) / tan(game->fov_rd
+				/ 2));
+	b_pix = fmin(S_W, (S_W / 2) + (game->wall_h / 2));
+	t_pix = fmax(0, (S_W / 2) - (game->wall_h / 2));
 	draw_wall(game, ray, t_pix, b_pix);
 	draw_floor_ceiling(game, ray, t_pix, b_pix);
 }
@@ -78,26 +82,18 @@ void	render_walls(t_game *game, float distance, int ray)
 void	cast_rays(t_game *game)
 {
 	int		ray;
-	float	horiz_i;
-	float	vert_i;
-	float	chose;
+	double	horiz_i;
+	double	vert_i;
+	double	chose;
 
 	normalize_angle(&game->angle);
 	game->ray->angle = game->angle - game->fov_rd / 2;
 	ray = 0;
-	while (ray < 800)
+	while (ray < S_W)
 	{
 		normalize_angle(&game->ray->angle);
 		game->ray->flag = 0;
-		horiz_i = horizontal_intersection(game);
-		vert_i = vertical_intersection(game);
-		if (vert_i <= horiz_i)
-			chose = vert_i;
-		else
-		{
-			chose = horiz_i;
-			game->ray->flag = 1;
-		}
+		calcul_intersections(game, &horiz_i, &vert_i, &chose);
 		render_walls(game, chose, ray);
 		ray++;
 		game->ray->angle += game->increment;

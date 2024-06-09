@@ -6,7 +6,7 @@
 /*   By: rrakman <rrakman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 22:12:07 by rrakman           #+#    #+#             */
-/*   Updated: 2024/06/04 13:26:19 by rrakman          ###   ########.fr       */
+/*   Updated: 2024/06/06 15:34:49 by rrakman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	define_angle(t_game *game, char dir)
 	if (dir == 'N')
 		game->angle = 3 * M_PI_2;
 	else if (dir == 'E')
-		game->angle = M_PI_2;
+		game->angle = 0;
 	else if (dir == 'S')
 		game->angle = M_PI_2;
 	else if (dir == 'W')

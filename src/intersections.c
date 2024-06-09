@@ -6,7 +6,7 @@
 /*   By: rrakman <rrakman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:05:42 by rrakman           #+#    #+#             */
-/*   Updated: 2024/06/04 13:26:01 by rrakman          ###   ########.fr       */
+/*   Updated: 2024/06/09 17:22:41 by rrakman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	wall_hit(t_game *game, float x, float y)
 	return (1);
 }
 
-int	inter_check(t_game *game, float *inter, float *step, int is_horizon)
+int	inter_add_step(t_game *game, float *inter, float *step, int is_horizon)
 {
 	if (is_horizon)
 	{
@@ -67,7 +67,7 @@ int	check_angle(float angle, char c)
 	return (0);
 }
 
-float	horizontal_intersection(t_game *game)
+double	horizontal_intersection(t_game *game)
 {
 	float	x_step;
 	float	y_step;
@@ -75,43 +75,42 @@ float	horizontal_intersection(t_game *game)
 
 	y_step = game->tale_size;
 	x_step = game->tale_size / tan(game->ray->angle);
-	game->ray->y = floor(game->player_yp / game->tale_size) * game->tale_size;
-	pixel = inter_check(game, &game->ray->y, &y_step, 1);
-	game->ray->x = game->player_xp + \
-		(game->ray->y - game->player_yp) / tan(game->ray->angle);
+	game->ray->y_h = floor(game->player_yp / game->tale_size) * game->tale_size;
+	pixel = inter_add_step(game, &game->ray->y_h, &y_step, 1);
+	game->ray->x_h = game->player_xp + \
+		(game->ray->y_h - game->player_yp) / tan(game->ray->angle);
 	if ((check_angle(game->ray->angle, 'y') && x_step > 0) \
 		|| (!check_angle(game->ray->angle, 'y') && x_step < 0))
 		x_step *= -1;
-	while (wall_hit(game, game->ray->x, game->ray->y - pixel))
+	while (wall_hit(game, game->ray->x_h, game->ray->y_h - pixel))
 	{
-		game->ray->x += x_step;
-		game->ray->y += y_step;
+		game->ray->x_h += x_step;
+		game->ray->y_h += y_step;
 	}
-	return (sqrt(pow(game->ray->x - game->player_xp, 2) \
-		+ pow(game->ray->y - game->player_yp, 2)));
+	return (sqrt(pow(game->ray->x_h - game->player_xp, 2) \
+		+ pow(game->ray->y_h - game->player_yp, 2)));
 }
 
-float	vertical_intersection(t_game *game)
+double	vertical_intersection(t_game *game)
 {
-	float	v_x;
-	float	v_y;
 	float	x_step;
 	float	y_step;
 	int		pixel;
 
 	x_step = game->tale_size; 
 	y_step = game->tale_size * tan(game->ray->angle);
-	v_x = floor(game->player_xp / game->tale_size) * game->tale_size;
-	pixel = inter_check(game, &v_x, &x_step, 0);
-	v_y = game->player_yp + (v_x - game->player_xp) * tan(game->ray->angle);
+	game->ray->x_v = floor(game->player_xp / game->tale_size) * game->tale_size;
+	pixel = inter_add_step(game, &(game->ray->x_v), &x_step, 0);
+	game->ray->y_v = game->player_yp + \
+		(game->ray->x_v - game->player_xp) * tan(game->ray->angle);
 	if ((check_angle(game->ray->angle, 'x') && y_step < 0) \
 		|| (!check_angle(game->ray->angle, 'x') && y_step > 0))
 		y_step *= -1;
-	while (wall_hit(game, v_x - pixel, v_y))
+	while (wall_hit(game, game->ray->x_v - pixel, game->ray->y_v))
 	{
-		v_x += x_step;
-		v_y += y_step;
+		game->ray->x_v += x_step;
+		game->ray->y_v += y_step;
 	}
-	return (sqrt(pow(v_x - game->player_xp, 2) \
-		+ pow(v_y - game->player_yp, 2)));
+	return (sqrt(pow(game->ray->x_v - game->player_xp, 2) \
+		+ pow(game->ray->y_v - game->player_yp, 2)));
 }

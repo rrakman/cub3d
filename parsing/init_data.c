@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_data.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hel-moue <hel-moue@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rrakman <rrakman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 17:01:23 by hel-moue          #+#    #+#             */
-/*   Updated: 2024/06/03 17:57:57 by hel-moue         ###   ########.fr       */
+/*   Updated: 2024/06/09 16:11:57 by rrakman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,8 @@ char	**alloc_data(int size)
 	return (data);
 }
 
-void	free_all(t_map *data)
+void	more_free(t_map *data)
 {
-	int	i;
-
-	i = -1;
 	if (data->no)
 		free(data->no);
 	if (data->so)
@@ -83,6 +80,14 @@ void	free_all(t_map *data)
 		free(data->we);
 	if (data->ea)
 		free(data->ea);
+}
+
+void	free_all(t_map *data)
+{
+	int	i;
+
+	i = -1;
+	more_free(data);
 	if (data->floor_rgb)
 		free(data->floor_rgb);
 	if (data->ceiling_rgb)
